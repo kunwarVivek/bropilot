@@ -1,0 +1,92 @@
+# Staging environment configuration
+
+app:
+  environment: staging
+  debug: false
+  log_level: INFO
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins:
+    - "https://staging.example.com"
+
+database:
+  host: staging-db.example.com
+  port: 5432
+  name: browser_automation_staging
+  user: app_user
+  pool_size: 10
+  max_overflow: 20
+
+llm:
+  provider: gemini
+  timeout: 60
+  max_retries: 3
+  retry_delay: 2.0
+  
+  gemini:
+    model: "models/gemini-2.5-flash-preview-04-17"
+    requests_per_second: 1.5
+    max_bucket_size: 12
+
+browser:
+  type: chrome
+  headless: true  # Headless in staging
+  timeout: 45
+  page_load_timeout: 45
+  implicit_wait: 15
+  window_width: 1920
+  window_height: 1080
+  pool_size: 5
+  
+  chrome_options:
+    - "--no-sandbox"
+    - "--disable-dev-shm-usage"
+    - "--disable-gpu"
+    - "--disable-extensions"
+    - "--disable-background-timer-throttling"
+    - "--disable-backgrounding-occluded-windows"
+    - "--disable-renderer-backgrounding"
+
+tasks:
+  default_timeout: 600  # 10 minutes
+  retry_count: 3
+  retry_delay: 2.0
+  max_parallel_tasks: 5
+  workflow_timeout: 3600  # 1 hour
+  checkpoint_interval: 120  # 2 minutes
+  
+  target_base_url: "https://staging.gotrust.tech"
+  cookie_consent_timeout: 10
+  cookie_consent_buttons:
+    - "Allow all"
+    - "Accept all"
+    - "Accept"
+
+logging:
+  level: INFO
+  format: json
+  file: "logs/staging.log"
+  max_size: "50MB"
+  backup_count: 10
+  include_timestamp: true
+  include_level: true
+  include_logger_name: true
+  include_correlation_id: true
+
+metrics:
+  enabled: true
+  port: 9090
+  path: "/metrics"
+  namespace: "browser_automation_staging"
+  prometheus_enabled: true
+
+cache:
+  enabled: true
+  type: redis
+  ttl: 3600  # 1 hour
+  redis:
+    host: staging-redis.example.com
+    port: 6379
+    db: 0

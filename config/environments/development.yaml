@@ -1,0 +1,88 @@
+# Development environment configuration
+
+app:
+  environment: development
+  debug: true
+  log_level: DEBUG
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8080"
+    - "http://127.0.0.1:3000"
+
+database:
+  host: localhost
+  port: 5432
+  name: browser_automation_dev
+  user: postgres
+  pool_size: 5
+  max_overflow: 10
+
+llm:
+  provider: gemini
+  timeout: 60
+  max_retries: 3
+  retry_delay: 1.0
+  
+  gemini:
+    model: "models/gemini-2.5-flash-preview-04-17"
+    requests_per_second: 2.0
+    max_bucket_size: 15
+
+browser:
+  type: chrome
+  headless: false
+  timeout: 30
+  page_load_timeout: 30
+  implicit_wait: 10
+  window_width: 1920
+  window_height: 1080
+  pool_size: 3
+  
+  chrome_options:
+    - "--no-sandbox"
+    - "--disable-dev-shm-usage"
+    - "--disable-gpu"
+    - "--disable-extensions"
+    - "--disable-web-security"  # For development only
+
+tasks:
+  default_timeout: 300
+  retry_count: 3
+  retry_delay: 1.0
+  max_parallel_tasks: 3
+  workflow_timeout: 1800
+  checkpoint_interval: 60
+  
+  target_base_url: "https://dev.gotrust.tech"
+  cookie_consent_timeout: 5
+  cookie_consent_buttons:
+    - "Allow all"
+    - "Accept all"
+    - "Accept"
+
+logging:
+  level: DEBUG
+  format: text  # More readable for development
+  file: "logs/development.log"
+  max_size: "10MB"
+  backup_count: 3
+  include_timestamp: true
+  include_level: true
+  include_logger_name: true
+  include_correlation_id: true
+
+metrics:
+  enabled: true
+  port: 9090
+  path: "/metrics"
+  namespace: "browser_automation_dev"
+  prometheus_enabled: true
+
+cache:
+  enabled: true
+  type: memory
+  ttl: 1800  # 30 minutes for development

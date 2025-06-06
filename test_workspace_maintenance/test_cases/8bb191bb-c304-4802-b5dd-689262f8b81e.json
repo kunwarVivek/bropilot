@@ -1,0 +1,49 @@
+{
+  "id": "8bb191bb-c304-4802-b5dd-689262f8b81e",
+  "name": "Login Test (Updated)",
+  "description": "Updated login test for new UI",
+  "test_type": "functional",
+  "priority": "high",
+  "status": "draft",
+  "steps": [
+    {
+      "id": "f937356a-651e-4003-90e7-8ddda7f9b847",
+      "step_number": 1,
+      "description": "Navigate to login page",
+      "action": "Open login page with new design",
+      "expected_result": "Page loads with new layout",
+      "test_data": {},
+      "validation_rules": [
+        "New design elements visible"
+      ],
+      "is_optional": false,
+      "timeout": 30,
+      "retry_count": 0
+    }
+  ],
+  "preconditions": [
+    "New UI is deployed"
+  ],
+  "postconditions": [],
+  "target_url": "https://example.com/login",
+  "browser_config": {},
+  "test_data": {
+    "email_field_id": "user-email"
+  },
+  "environment": "default",
+  "tags": [
+    "login",
+    "authentication",
+    "updated_for_changes"
+  ],
+  "labels": {},
+  "requirements": [],
+  "timeout": 300,
+  "retry_count": 1,
+  "parallel_execution": true,
+  "created_by": "system",
+  "created_at": "2025-06-06T17:25:16.131480+00:00",
+  "updated_by": "llm_maintenance_engine",
+  "updated_at": "2025-06-06T17:25:16.133037+00:00",
+  "version": 2
+}

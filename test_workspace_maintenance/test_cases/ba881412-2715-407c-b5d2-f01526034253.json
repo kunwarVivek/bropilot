@@ -1,0 +1,28 @@
+{
+  "id": "ba881412-2715-407c-b5d2-f01526034253",
+  "name": "Updated Test Case",
+  "description": "Updated description",
+  "test_type": "functional",
+  "priority": "medium",
+  "status": "draft",
+  "steps": [],
+  "preconditions": [],
+  "postconditions": [],
+  "target_url": null,
+  "browser_config": {},
+  "test_data": {},
+  "environment": "default",
+  "tags": [
+    "updated_for_changes"
+  ],
+  "labels": {},
+  "requirements": [],
+  "timeout": 300,
+  "retry_count": 1,
+  "parallel_execution": true,
+  "created_by": "system",
+  "created_at": "2025-06-06T17:25:16.137919+00:00",
+  "updated_by": "llm_maintenance_engine",
+  "updated_at": "2025-06-06T17:25:16.140094+00:00",
+  "version": 2
+}

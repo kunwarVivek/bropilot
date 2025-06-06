@@ -1,0 +1,96 @@
+# Production environment configuration
+
+app:
+  environment: production
+  debug: false
+  log_level: INFO
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins:
+    - "https://app.gotrust.tech"
+    - "https://dashboard.gotrust.tech"
+
+database:
+  host: prod-db.gotrust.tech
+  port: 5432
+  name: browser_automation_prod
+  user: app_user
+  pool_size: 20
+  max_overflow: 40
+
+llm:
+  provider: gemini
+  timeout: 90
+  max_retries: 5
+  retry_delay: 3.0
+  
+  gemini:
+    model: "models/gemini-2.5-flash-preview-04-17"
+    requests_per_second: 1.0
+    max_bucket_size: 10
+
+browser:
+  type: chrome
+  headless: true
+  timeout: 60
+  page_load_timeout: 60
+  implicit_wait: 20
+  window_width: 1920
+  window_height: 1080
+  pool_size: 10
+  
+  chrome_options:
+    - "--no-sandbox"
+    - "--disable-dev-shm-usage"
+    - "--disable-gpu"
+    - "--disable-extensions"
+    - "--disable-background-timer-throttling"
+    - "--disable-backgrounding-occluded-windows"
+    - "--disable-renderer-backgrounding"
+    - "--memory-pressure-off"
+    - "--max_old_space_size=4096"
+
+tasks:
+  default_timeout: 900  # 15 minutes
+  retry_count: 5
+  retry_delay: 3.0
+  max_parallel_tasks: 10
+  workflow_timeout: 7200  # 2 hours
+  checkpoint_interval: 300  # 5 minutes
+  
+  target_base_url: "https://gotrust.tech"
+  cookie_consent_timeout: 15
+  cookie_consent_buttons:
+    - "Allow all"
+    - "Accept all"
+    - "Accept"
+
+logging:
+  level: INFO
+  format: json
+  file: "logs/production.log"
+  max_size: "100MB"
+  backup_count: 30
+  include_timestamp: true
+  include_level: true
+  include_logger_name: true
+  include_correlation_id: true
+
+metrics:
+  enabled: true
+  port: 9090
+  path: "/metrics"
+  namespace: "browser_automation"
+  prometheus_enabled: true
+  prometheus_multiproc: true
+
+cache:
+  enabled: true
+  type: redis
+  ttl: 7200  # 2 hours
+  redis:
+    host: prod-redis.gotrust.tech
+    port: 6379
+    db: 0

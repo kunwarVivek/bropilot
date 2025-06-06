@@ -1,0 +1,87 @@
+{
+  "id": "cdbb3ab6-07d3-4c5f-b31e-1720aae0f137",
+  "name": "User Authentication - Valid User Registration (Updated for v2.0)",
+  "description": "Test valid user registration process with updated UI elements and new features",
+  "test_type": "functional",
+  "priority": "critical",
+  "status": "draft",
+  "steps": [
+    {
+      "id": "1e7ee9fe-7781-4f53-8085-8028576c250d",
+      "step_number": 1,
+      "description": "Navigate to registration page",
+      "action": "Open browser and navigate to /register",
+      "expected_result": "Registration form with new design is displayed",
+      "test_data": {},
+      "validation_rules": [
+        "Page title contains 'Register'",
+        "Social login buttons are visible"
+      ],
+      "is_optional": false,
+      "timeout": 30,
+      "retry_count": 0
+    },
+    {
+      "id": "1c53c606-aaea-48d5-8eea-ac0543f5f20e",
+      "step_number": 2,
+      "description": "Enter user details with new selectors",
+      "action": "Fill in email field (ID: user-email-input) and password field (class: password-field-v2)",
+      "expected_result": "Fields accept input with new validation",
+      "test_data": {},
+      "validation_rules": [
+        "Email format is validated",
+        "Password strength indicator shows"
+      ],
+      "is_optional": false,
+      "timeout": 10,
+      "retry_count": 0
+    },
+    {
+      "id": "bbc166a6-c8b0-4f32-b83f-f8d21184f6d9",
+      "step_number": 3,
+      "description": "Submit registration with new button",
+      "action": "Click 'Sign In' button",
+      "expected_result": "Registration is processed with new flow",
+      "test_data": {},
+      "validation_rules": [
+        "Success message is shown",
+        "Remember Me option is available"
+      ],
+      "is_optional": false,
+      "timeout": 15,
+      "retry_count": 0
+    }
+  ],
+  "preconditions": [
+    "Registration page is accessible",
+    "Email service is available",
+    "Social login services are available"
+  ],
+  "postconditions": [
+    "User account is created in database",
+    "User preferences are saved if Remember Me is checked"
+  ],
+  "target_url": "https://demo-ecommerce.example.com",
+  "browser_config": {},
+  "test_data": {
+    "email": "newuser@example.com",
+    "password": "SecurePass123!",
+    "remember_me": true
+  },
+  "environment": "demo",
+  "tags": [
+    "user_authentication",
+    "positive",
+    "updated_for_changes"
+  ],
+  "labels": {},
+  "requirements": [],
+  "timeout": 300,
+  "retry_count": 1,
+  "parallel_execution": true,
+  "created_by": "llm_generator",
+  "created_at": "2025-06-06T17:27:25.063302+00:00",
+  "updated_by": "llm_maintenance_engine",
+  "updated_at": "2025-06-06T17:27:25.068434+00:00",
+  "version": 2
+}

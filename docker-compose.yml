@@ -1,0 +1,249 @@
+# Docker Compose configuration for Browser Automation Framework
+
+version: '3.8'
+
+services:
+  # =============================================================================
+  # Application Service
+  # =============================================================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: browser-automation-app
+    ports:
+      - "8000:8000"  # API port
+      - "9090:9090"  # Metrics port
+    environment:
+      - APP_ENVIRONMENT=development
+      - DATABASE_URL=postgresql://postgres:password@db:5432/browser_automation
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+      - ./downloads:/app/downloads
+    depends_on:
+      - db
+      - redis
+    networks:
+      - browser-automation-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # =============================================================================
+  # Database Service
+  # =============================================================================
+  db:
+    image: postgres:15-alpine
+    container_name: browser-automation-db
+    environment:
+      POSTGRES_DB: browser_automation
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - browser-automation-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # =============================================================================
+  # Redis Service (for caching and session storage)
+  # =============================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: browser-automation-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - browser-automation-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # =============================================================================
+  # Monitoring Services
+  # =============================================================================
+  
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: browser-automation-prometheus
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - browser-automation-network
+    restart: unless-stopped
+
+  # Grafana for metrics visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: browser-automation-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - browser-automation-network
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+  # =============================================================================
+  # Development Tools
+  # =============================================================================
+  
+  # pgAdmin for database management (development only)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: browser-automation-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - browser-automation-network
+    restart: unless-stopped
+    depends_on:
+      - db
+    profiles:
+      - development
+
+  # Redis Commander for Redis management (development only)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: browser-automation-redis-commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    networks:
+      - browser-automation-network
+    restart: unless-stopped
+    depends_on:
+      - redis
+    profiles:
+      - development
+
+# =============================================================================
+# Production Override
+# =============================================================================
+  app-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: browser-automation-app-prod
+    ports:
+      - "8000:8000"
+      - "9090:9090"
+    environment:
+      - APP_ENVIRONMENT=production
+      - DATABASE_URL=postgresql://postgres:password@db:5432/browser_automation
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./logs:/app/logs
+      - ./downloads:/app/downloads
+    depends_on:
+      - db
+      - redis
+    networks:
+      - browser-automation-network
+    restart: unless-stopped
+    profiles:
+      - production
+
+# =============================================================================
+# Testing Service
+# =============================================================================
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: testing
+    container_name: browser-automation-test
+    environment:
+      - APP_ENVIRONMENT=testing
+      - DATABASE_URL=postgresql://postgres:password@db-test:5432/browser_automation_test
+    volumes:
+      - .:/app
+      - ./test-results:/app/test-results
+    depends_on:
+      - db-test
+    networks:
+      - browser-automation-network
+    profiles:
+      - testing
+
+  # Test database
+  db-test:
+    image: postgres:15-alpine
+    container_name: browser-automation-db-test
+    environment:
+      POSTGRES_DB: browser_automation_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    tmpfs:
+      - /var/lib/postgresql/data
+    networks:
+      - browser-automation-network
+    profiles:
+      - testing
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  browser-automation-network:
+    driver: bridge
+    name: browser-automation-network
+
+# =============================================================================
+# Volumes
+# =============================================================================
+volumes:
+  postgres_data:
+    name: browser-automation-postgres-data
+  redis_data:
+    name: browser-automation-redis-data
+  prometheus_data:
+    name: browser-automation-prometheus-data
+  grafana_data:
+    name: browser-automation-grafana-data
+  pgadmin_data:
+    name: browser-automation-pgadmin-data

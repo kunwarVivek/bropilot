@@ -1,0 +1,66 @@
+{
+  "id": "b5e2cb84-1643-4390-9e01-42fb086031ae",
+  "name": "User Authentication - Account Lockout After Failed Attempts",
+  "description": "Test adding products to shopping cart with quantity selection",
+  "test_type": "functional",
+  "priority": "critical",
+  "status": "draft",
+  "steps": [
+    {
+      "id": "018e194d-4863-4b28-9358-2725c97c54f6",
+      "step_number": 1,
+      "description": "Navigate to product page",
+      "action": "Click on product from catalog",
+      "expected_result": "Product details page loads",
+      "test_data": {},
+      "validation_rules": [
+        "Product information is displayed"
+      ],
+      "is_optional": false,
+      "timeout": 20,
+      "retry_count": 0
+    },
+    {
+      "id": "e86ea9c7-8272-4a38-85b5-5ad85da17308",
+      "step_number": 2,
+      "description": "Add to cart",
+      "action": "Select quantity and click add to cart",
+      "expected_result": "Product is added to cart",
+      "test_data": {},
+      "validation_rules": [
+        "Cart count increases"
+      ],
+      "is_optional": false,
+      "timeout": 10,
+      "retry_count": 0
+    }
+  ],
+  "preconditions": [
+    "User is logged in",
+    "Product catalog is available"
+  ],
+  "postconditions": [
+    "Cart contains selected product"
+  ],
+  "target_url": "https://demo-ecommerce.example.com",
+  "browser_config": {},
+  "test_data": {
+    "product_id": "PROD123",
+    "quantity": 2
+  },
+  "environment": "demo",
+  "tags": [
+    "user_authentication",
+    "negative"
+  ],
+  "labels": {},
+  "requirements": [],
+  "timeout": 300,
+  "retry_count": 1,
+  "parallel_execution": true,
+  "created_by": "llm_generator",
+  "created_at": "2025-06-06T17:27:25.063560+00:00",
+  "updated_by": "llm_generator",
+  "updated_at": "2025-06-06T17:27:25.063562+00:00",
+  "version": 1
+}

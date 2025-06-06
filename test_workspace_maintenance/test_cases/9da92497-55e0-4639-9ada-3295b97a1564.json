@@ -1,0 +1,29 @@
+{
+  "id": "9da92497-55e0-4639-9ada-3295b97a1564",
+  "name": "Login Test",
+  "description": "Test user login functionality",
+  "test_type": "functional",
+  "priority": "high",
+  "status": "active",
+  "steps": [],
+  "preconditions": [],
+  "postconditions": [],
+  "target_url": "https://example.com/login",
+  "browser_config": {},
+  "test_data": {},
+  "environment": "default",
+  "tags": [
+    "login",
+    "authentication"
+  ],
+  "labels": {},
+  "requirements": [],
+  "timeout": 300,
+  "retry_count": 1,
+  "parallel_execution": true,
+  "created_by": "system",
+  "created_at": "2025-06-06T17:24:38.420626+00:00",
+  "updated_by": "system",
+  "updated_at": "2025-06-06T17:24:38.420632+00:00",
+  "version": 1
+}

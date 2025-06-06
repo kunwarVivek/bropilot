@@ -1,0 +1,42 @@
+{
+  "id": "221581cf-9aa5-4a25-a882-d77f96a7ece6",
+  "name": "Shopping Cart - Add Product to Cart",
+  "description": "",
+  "test_type": "functional",
+  "priority": "critical",
+  "status": "draft",
+  "steps": [
+    {
+      "id": "9a5a7b99-39e8-4605-a240-19b98e35e69f",
+      "step_number": 1,
+      "description": "Execute test",
+      "action": "",
+      "expected_result": "Test completes successfully",
+      "test_data": {},
+      "validation_rules": [],
+      "is_optional": false,
+      "timeout": 60,
+      "retry_count": 0
+    }
+  ],
+  "preconditions": [],
+  "postconditions": [],
+  "target_url": "https://demo-ecommerce.example.com",
+  "browser_config": {},
+  "test_data": {},
+  "environment": "demo",
+  "tags": [
+    "shopping_cart",
+    "positive"
+  ],
+  "labels": {},
+  "requirements": [],
+  "timeout": 300,
+  "retry_count": 1,
+  "parallel_execution": true,
+  "created_by": "llm_generator",
+  "created_at": "2025-06-06T17:27:25.063823+00:00",
+  "updated_by": "llm_generator",
+  "updated_at": "2025-06-06T17:27:25.063825+00:00",
+  "version": 1
+}

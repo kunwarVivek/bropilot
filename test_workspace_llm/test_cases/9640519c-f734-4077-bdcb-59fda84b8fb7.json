@@ -1,0 +1,50 @@
+{
+  "id": "9640519c-f734-4077-bdcb-59fda84b8fb7",
+  "name": "User Registration - Valid User Registration",
+  "description": "Test valid user registration process",
+  "test_type": "functional",
+  "priority": "critical",
+  "status": "draft",
+  "steps": [
+    {
+      "id": "336bfe44-284b-41b1-93bd-b0acb438593b",
+      "step_number": 1,
+      "description": "Navigate to registration",
+      "action": "Open registration page",
+      "expected_result": "Page loads successfully",
+      "test_data": {},
+      "validation_rules": [
+        "Page title correct"
+      ],
+      "is_optional": false,
+      "timeout": 30,
+      "retry_count": 0
+    }
+  ],
+  "preconditions": [
+    "Registration page is accessible"
+  ],
+  "postconditions": [
+    "User account created"
+  ],
+  "target_url": null,
+  "browser_config": {},
+  "test_data": {
+    "email": "test@example.com"
+  },
+  "environment": "test",
+  "tags": [
+    "user_registration",
+    "positive"
+  ],
+  "labels": {},
+  "requirements": [],
+  "timeout": 300,
+  "retry_count": 1,
+  "parallel_execution": true,
+  "created_by": "llm_generator",
+  "created_at": "2025-06-06T17:25:16.118125+00:00",
+  "updated_by": "llm_generator",
+  "updated_at": "2025-06-06T17:25:16.118131+00:00",
+  "version": 1
+}

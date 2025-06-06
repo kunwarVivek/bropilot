@@ -1,0 +1,30 @@
+{
+  "id": "b74764fb-f8d4-4b01-93f6-ffa2ecbb429b",
+  "name": "Updated Login Test",
+  "description": "Test login",
+  "test_type": "functional",
+  "priority": "critical",
+  "status": "draft",
+  "steps": [],
+  "preconditions": [],
+  "postconditions": [],
+  "target_url": null,
+  "browser_config": {},
+  "test_data": {},
+  "environment": "test",
+  "tags": [
+    "login",
+    "positive",
+    "updated_for_changes"
+  ],
+  "labels": {},
+  "requirements": [],
+  "timeout": 300,
+  "retry_count": 1,
+  "parallel_execution": true,
+  "created_by": "llm_generator",
+  "created_at": "2025-06-06T17:25:16.146231+00:00",
+  "updated_by": "llm_maintenance_engine",
+  "updated_at": "2025-06-06T17:25:16.147442+00:00",
+  "version": 2
+}
